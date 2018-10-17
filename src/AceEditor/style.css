@@ -1,0 +1,25 @@
+.react-display-linebreak {
+  white-space: pre;
+}
+
+.editor-frame {
+  font-size: 16px;
+  position: static;
+}
+.editor-frame .action{
+  position: absolute;
+  line-height: 1.2em;
+  display: flex;
+  right: 0;
+  padding:0.6em;
+  height: 1.2em;
+  bottom: 0;
+  left: 0;
+}
+#editor {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 2.4em;
+  left: 0;
+}
