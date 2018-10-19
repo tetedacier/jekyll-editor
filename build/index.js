@@ -17,8 +17,8 @@ if (localStorage) {
         let authorizeButton = document.getElementById('authorize')
         let eventName = 'click'
         authorizeButton.addEventListener(eventName, (event) => {
-          window.href = 'https://github.com/login/oauth/authorize' + '?' +
-            'client_id=' + clientId +
+          window.location.href = 'https://github.com/login/oauth/authorize' + '?' +
+            'client_id=' + clientId + '&'
             'state=' + localStorage.getItem('defaultState')
         })
         localStorage.setItem('defaultState', 'st-'+ Math.random()*1e9)
