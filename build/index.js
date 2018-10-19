@@ -7,7 +7,7 @@ if (localStorage) {
     document.getElementById('authorize').parentNode.removeChild(document.getElementById('authorize'))
 
     appFrame = document.createElement('iframe')
-    appFrame.src = "/editor.html"
+    appFrame.src = "editor.html"
     document.getElementsByTagName('body')[0].appendChild(appFrame)
   } else {
     if (localStorage.appPrivateKey) {
