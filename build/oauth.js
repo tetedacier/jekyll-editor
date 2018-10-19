@@ -40,7 +40,7 @@ const githubAccessToken = (parameter) => {
           }
         } else {
           alert(
-            '/!\\ missing authentication state and/or code parameter:\n' + oauth.reponseText
+            '/!\\ access token can\'t be retrieved:\n' + oauth.reponseText
           )
         }
       }
