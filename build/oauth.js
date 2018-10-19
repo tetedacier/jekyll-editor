@@ -9,15 +9,10 @@ const {
 if (localStorage && localStorage.appPrivateKey) {
   let parameter = extractGithubOauthParameters(window.location.search)
   if(parameter !== null) {
-    if (parameter.state !== localStorage.defaultState) {
-      alert('/!\\ wrong authentication')
-    }
-    else {
-      githubAccessToken(parameter)
-    }
+    githubAccessToken(parameter)
   }
   else {
-    alert('/!\\ missing authentication state and/or code parameter')
+    alert('/!\\ missing authentication code parameter')
   }
 }
 
@@ -67,12 +62,11 @@ module.exports = {
 const extractGithubOauthParameters = (locationSearch) => {
     let parameter = {}
     let queryString = locationSearch.match(
-      /^\?(state|code)=([^=\&]+)\&(state|code)=([^=\&]+)$/
+      /^\?(code)=([^=\&]+)$/
     )
 
     if(queryString !== null) {
       parameter[queryString[1]] = queryString[2]
-      parameter[queryString[3]] = queryString[4]
       return parameter;
     }
 
