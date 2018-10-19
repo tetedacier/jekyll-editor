@@ -12,9 +12,8 @@ if (localStorage) {
   } else {
     if (localStorage.appPrivateKey) {
       if (window.location.host !== 'tetedacier.github.io') {
-      //   alert('/!\\ `' + window.location.host + '` is a wrong realm')
-      // } else {
-
+        alert('/!\\ `' + window.location.host + '` is a wrong realm')
+      } else {
         let authorizeButton = document.getElementById('authorize')
         let eventName = 'click'
         authorizeButton.addEventListener(eventName, (event) => {
