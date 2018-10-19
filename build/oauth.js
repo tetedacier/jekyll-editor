@@ -34,13 +34,13 @@ const githubAccessToken = (parameter) => {
       if (oauth.readyState === XMLHttpRequest.DONE) {
         if (oauth.status === 200) {
           if (oauth.response === 'json') {
-            console.log(JSON.parse(oauth.reponseText))
+            console.log(JSON.parse(oauth.responseText))
           } else {
-            console.log(oauth.reponseText)
+            console.log(oauth.responseText)
           }
         } else {
           alert(
-            '/!\\ access token can\'t be retrieved:\n' + oauth.reponseText
+            '/!\\ access token can\'t be retrieved:\n' + oauth.responseText
           )
         }
       }

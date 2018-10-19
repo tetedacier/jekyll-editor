@@ -4,13 +4,13 @@ user.addEventListener('load', (event) => {
   if (user.readyState === XMLHttpRequest.DONE) {
     if (user.status === 200) {
       if (user.response === 'json') {
-        console.log(JSON.parse(user.reponseText))
+        console.log(JSON.parse(user.responseText))
       } else {
-        console.log(user.reponseText)
+        console.log(user.responseText)
       }
     } else {
       alert(
-        '/!\\ user can\'t be retrieved:\n' + user.reponseText
+        '/!\\ user can\'t be retrieved:\n' + user.responseText
       )
     }
   }
