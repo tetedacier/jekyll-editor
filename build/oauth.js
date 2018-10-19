@@ -29,6 +29,7 @@ const {
 
 const githubAccessToken = (parameter) => {
     let oauth = new XMLHttpRequest();
+
     oauth.addEventListener('load', (event) => {
       if (oauth.readyState === XMLHttpRequest.DONE) {
         if (oauth.status === 200) {
@@ -44,10 +45,9 @@ const githubAccessToken = (parameter) => {
         }
       }
     })
-
+    oauth.open('POST', 'https://github.com/login/oauth/access_token');
     oauth.setRequestHeader('Accept', 'application/json')
     oauth.setRequestHeader('Content-type', 'application/json')
-    oauth.open('POST', 'https://github.com/login/oauth/access_token');
     oauth.send(JSON.stringify({
       client_id: clientId,
       client_secret: localStorage.appPrivateKey,
