@@ -6,11 +6,12 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "request": "^2.88.0"
   },
   "devDependencies": {},
   "scripts": {
-    "start":"node src/index.js",
+    "start": "node src/index.js",
     "test": "jest"
   },
   "repository": {
