@@ -1,0 +1,31 @@
+{
+  "name": "jekyll-editor",
+  "version": "1.0.0",
+  "description": "heroku side of the jekyll editor project",
+  "main": "src/index.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start":"node src/index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tetedacier/jekyll-editor.git"
+  },
+  "keywords": [
+    "heroku",
+    "oauth",
+    "github"
+  ],
+  "author": "tetedacier <fabien.jacq@gmail.com> (https://tetedacier.github.io/jekyll-editor)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tetedacier/jekyll-editor/issues"
+  },
+  "homepage": "https://github.com/tetedacier/jekyll-editor#readme"
+}
