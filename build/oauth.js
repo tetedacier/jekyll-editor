@@ -32,16 +32,13 @@ const githubAccessToken = (parameter) => {
     let oauth = new XMLHttpRequest();
 
     oauth.addEventListener('load', (event) => {
+
       if (oauth.readyState === XMLHttpRequest.DONE) {
         if (oauth.status === 200) {
-          if (oauth.response === 'json') {
-            localStorage.setItem(
-              'githubJekyllEditorAccessToken',
-              JSON.parse(oauth.responseText).access_token
-            )
-          } else {
-            console.log(oauth.responseText)
-          }
+          localStorage.setItem(
+            'githubJekyllEditorAccessToken',
+            JSON.parse(oauth.responseText).access_token
+          )
         } else {
           alert(
             '/!\\ access token can\'t be retrieved:\n' + oauth.responseText
