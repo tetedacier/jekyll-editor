@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser');
+const PORT = process.env.PORT || process.env.server_port
+
 // const request = require('request')
 const app = express()
 app.use(bodyParser.json())
@@ -23,6 +25,6 @@ app.post('/authorize', (req, res) => {
   res.set({'Content-Type':'application/json'})
   return res.send(`{"message": "missing code parameter"}`)
 })
-app.listen(process.env.server_port, () => {
-  console.log(`listening on port ${process.env.server_port}`)
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`)
 })
