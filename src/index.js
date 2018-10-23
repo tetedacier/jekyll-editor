@@ -33,7 +33,7 @@ app.post('/authorize', (req, res) => {
         res.set({'Content-Type':'application/json'})
         return res.send(
           `{"access_token": "${
-            reponse.access_token
+            body.access_token
           }"}`
         )
       }
