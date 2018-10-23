@@ -9,10 +9,7 @@ const githubAuthorize = (res, code) => {
     client_id,
     client_secret
   } = process.env
-  console.warn({
-    client_id,
-    client_secret
-  })
+
   return request.post(
     {
       url: 'https://github.com/login/oauth/access_token',
@@ -28,8 +25,9 @@ const githubAuthorize = (res, code) => {
       }
       res.status(200)
       res.set({'Content-Type':'application/json'})
+      let { access_token } = body;
       return res.json(
-        body
+        { access_token }
       )
     }
   )
