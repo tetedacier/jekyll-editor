@@ -14,9 +14,8 @@ const errorReponse = (res, message) => {
   return res.send(`{"message": "${message}"}`)
 }
 app.post('/authorize', (req, res) => {
-  console.warn(req.body)
   if (req.body.code) {
-    request.post(
+    return request.post(
       {
         url: 'https://github.com/login/oauth/access_token',
         json:true,
