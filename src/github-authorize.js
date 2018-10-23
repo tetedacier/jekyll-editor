@@ -9,7 +9,10 @@ const githubAuthorize = (res, code) => {
     client_id,
     client_secret
   } = process.env
-
+  console.warn({
+    client_id,
+    client_secret
+  })
   return request.post(
     {
       url: 'https://github.com/login/oauth/access_token',
