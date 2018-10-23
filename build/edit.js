@@ -28,4 +28,8 @@ const UserRequest = (path) => {
   user.send()
 }
 
+module.exports = {
+  UserRequest
+}
+
 },{}]},{},[1]);
