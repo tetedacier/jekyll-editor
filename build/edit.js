@@ -67,9 +67,17 @@ const githubAccessToken = (parameter) => {
     }))
 }
 
-const userRequest = (path) => new Promise((resolve, reject) => {
+const userRequest = (path, options) => new Promise((resolve, reject) => {
+  var method = 'GET'
+  var parameters = {}
   if (!path) {
     path =''
+  }
+  if (options && options.method) {
+    method = options.method
+  }
+  if (options && options.parameters) {
+    parameters = options.parameters
   }
   let user = new XMLHttpRequest()
   user.addEventListener('load', (event) => {
@@ -95,11 +103,14 @@ const userRequest = (path) => new Promise((resolve, reject) => {
     }
   })
   if (localStorage && localStorage.githubJekyllEditorAccessToken) {
-    user.open('GET', `https://api.github.com/${path}`)
+    user.open(method, `https://api.github.com/${path}`)
     user.setRequestHeader('Authorization', 'token ' + localStorage.githubJekyllEditorAccessToken)
     user.setRequestHeader('Accept', 'application/json')
     user.setRequestHeader('Content-type', 'application/json')
-    user.send()
+    user.send(Object.keys(parameters).length>0?
+      JSON.stringify(parameters):
+      undefined
+    )
   } else {
     reject(new Error('no access_token found, require one through https://tetedacier.github.io/jekyll-editor/'))
   }
