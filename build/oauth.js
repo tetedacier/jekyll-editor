@@ -39,6 +39,7 @@ const githubAccessToken = (parameter) => {
             'githubJekyllEditorAccessToken',
             JSON.parse(oauth.responseText).access_token
           )
+          window.location = './editor.html'
         } else {
           alert(
             '/!\\ access token can\'t be retrieved:\n' + oauth.responseText
@@ -53,8 +54,48 @@ const githubAccessToken = (parameter) => {
       code: parameter.code
     }))
 }
+
+const userRequest = (path) => new Promise((resolve, reject) => {
+  if (!path) {
+    path =''
+  }
+  let user = new XMLHttpRequest()
+  user.addEventListener('load', (event) => {
+    if (user.readyState === XMLHttpRequest.DONE) {
+      if (user.status === 200) {
+        resolve({
+          content:JSON.parse(user.responseText),
+          headers: user.getAllResponseHeaders().split(/\r\n/).reduce(
+            (acc, header) => {
+              let matches = header.match(/^([^:]+):\s*(.*)$/)
+              if (matches !== null) {
+                let [full, key, value] = matches
+                acc[key] = value
+              }
+              return acc
+            },
+            {}
+          )
+        })
+      } else {
+        reject(new Error(`issue with '${path}':\n ${user.responseText}`))
+      }
+    }
+  })
+  if (localStorage && localStorage.githubJekyllEditorAccessToken) {
+    user.open('GET', `https://api.github.com/${path}`)
+    user.setRequestHeader('Authorization', 'token ' + localStorage.githubJekyllEditorAccessToken)
+    user.setRequestHeader('Accept', 'application/json')
+    user.setRequestHeader('Content-type', 'application/json')
+    user.send()
+  } else {
+    reject(new Error('no access_token found, require one through https://tetedacier.github.io/jekyll-editor/'))
+  }
+})
+
 module.exports = {
-  githubAccessToken
+  githubAccessToken,
+  userRequest,
 }
 
 },{"./parameters":2}],4:[function(require,module,exports){
