@@ -18,7 +18,8 @@ if (localStorage) {
       authorizeButton.addEventListener(eventName, (event) => {
         window.location.href = 'https://github.com/login/oauth/authorize' + '?' +
           'client_id=' + clientId + '&'
-          'state=' + localStorage.getItem('defaultState')
+          'state=' + localStorage.getItem('defaultState') + '&'
+          'scope=' + ['public_repo'].join('%20')
       })
       localStorage.setItem('defaultState', 'st-'+ Math.random()*1e9)
       authorizeButton.removeAttribute('disabled')

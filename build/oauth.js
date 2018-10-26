@@ -94,7 +94,11 @@ const strPad = (str, {length, direction=true, pad=' '}) => {
     })(length - str.length)
     return (direction)?`${str}${padding}`:`${padding}${str}`
 }
-
+/**
+ * Return an uuid generation promise
+ * @see https://www.ietf.org/rfc/rfc4122.txt
+ * @return {Promise}             [description]
+ */
 const uuidGenerator = () => new Promise(function(resolveUuid, rejectUuid) {
   Promise.all(
     [
