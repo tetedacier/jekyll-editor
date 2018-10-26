@@ -1,7 +1,25 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const {
-  userRequest
+  userRequest,
 } =  require('./request')
+const {
+  strPad,
+} = require('./utils')
+
+const createPostCreationInterface = () => {
+  document.getElementById('post-creation-placeholder').innerHTML = `<pre>_posts/${(date => `${
+      date.getFullYear()
+    }-${
+      strPad(date.getMonth()+1, {length: 2, pad: "0", direction: false})
+    }-${
+      strPad(date.getDate(), {length: 2, pad: "0", direction: false})
+    }-`
+  )(new Date())}<input type="test" placeholder="your post name slugified" /></pre>
+<button type="button" id="create_post" disabled>create and edit</button>
+`
+}
+
+createPostCreationInterface()
 
 userRequest('user').then(
   result => {
@@ -29,7 +47,7 @@ userRequest('user').then(
   rejection => console.error(rejection)
 )
 
-},{"./request":3}],2:[function(require,module,exports){
+},{"./request":3,"./utils":4}],2:[function(require,module,exports){
 const clientId = '101ee5181784e405d2dc'
 module.exports = {
   clientId
@@ -121,4 +139,102 @@ module.exports = {
   userRequest,
 }
 
-},{"./parameters":2}]},{},[1]);
+},{"./parameters":2}],4:[function(require,module,exports){
+const extractGithubOauthParameters = (locationSearch) => {
+    let parameter = {}
+    let queryString = locationSearch.match(
+      /^\?(code)=([^=\&]+)$/
+    )
+
+    if(queryString !== null) {
+      parameter[queryString[1]] = queryString[2]
+      return parameter;
+    }
+
+    return null;
+}
+
+const last = (array) => array.slice(-1)[0]
+/**
+ * [strPad description]
+ * @param  {AnyWithToString} str    Str to pad
+ *
+ * @param  {Object} length Length of resulting string
+ * @param  {[type]} direction [description]
+ * @return {[type]}        [description]
+ */
+const strPad = (str, {length, direction=true, pad=' '}) => {
+    str = str.toString()
+    if (str.length >= length) {
+        return str
+    }
+    let padding = ((size) => {
+        var ret = ''
+        for(var i = 1; i < size; i++) {
+            ret += pad
+        }
+        return ret
+    })(length - str.length + 1)
+    return (direction)?`${str}${padding}`:`${padding}${str}`
+}
+/**
+ * Return an uuid generation promise
+ * @see https://www.ietf.org/rfc/rfc4122.txt
+ * @return {Promise}             [description]
+ */
+const uuidGenerator = () => new Promise(function(resolveUuid, rejectUuid) {
+  Promise.all(
+    [
+      {size:8, length:2},
+      {size:4, length:4}
+    ]
+    .map(uuidPart => {
+      let sizes = [];
+      for (var i = 0; i < uuidPart.length ; i++) {
+        sizes.push({size: uuidPart.size})
+      }
+      return sizes
+    })
+    .reduce((acc, current) =>  acc.concat(current), [])
+    .map(chunk => new Promise((resolve, reject) => resolve({
+      value: strPad(
+        Math.trunc(
+          (Math.pow(2, 4 * chunk.size) - 1) * Math.random(Date.now())
+        ).toString(16),
+        { length: chunk.size, direction: false, pad: '0' }
+      ),
+      size: chunk.size
+    })))
+  ).then((chunks) => {
+    let classifiedValues = chunks.reduce((acc, current) => {
+      if (acc[current.size] === undefined) {
+        acc[current.size] = [current.value]
+      } else {
+        acc[current.size].push(current.value)
+      }
+      return acc
+    }, {})
+    resolveUuid(`${
+      classifiedValues[8][0]
+    }-${
+      classifiedValues[4][0]
+    }-${
+      classifiedValues[4][1]
+    }-${
+      classifiedValues[4][2]
+    }-${
+      classifiedValues[4][3]
+    }${
+      classifiedValues[8][1]
+    }`)
+  }, $rejection => rejectUuid($rejection))
+  .catch($globalRejection => rejectUuid($globalRejection))
+})
+
+module.exports = {
+  extractGithubOauthParameters,
+  uuidGenerator,
+  strPad,
+}
+
+},{}]},{},[1]);

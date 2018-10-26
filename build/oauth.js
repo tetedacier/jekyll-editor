@@ -127,14 +127,15 @@ const extractGithubOauthParameters = (locationSearch) => {
 const last = (array) => array.slice(-1)[0]
 /**
  * [strPad description]
- * @param  {String} str    Str to pad
+ * @param  {AnyWithToString} str    Str to pad
  *
  * @param  {Object} length Length of resulting string
  * @param  {[type]} direction [description]
  * @return {[type]}        [description]
  */
 const strPad = (str, {length, direction=true, pad=' '}) => {
-    if (str.length > length) {
+    str = str.toString()
+    if (str.length >= length) {
         return str
     }
     let padding = ((size) => {
@@ -143,7 +144,7 @@ const strPad = (str, {length, direction=true, pad=' '}) => {
             ret += pad
         }
         return ret
-    })(length - str.length)
+    })(length - str.length + 1)
     return (direction)?`${str}${padding}`:`${padding}${str}`
 }
 /**
@@ -203,6 +204,7 @@ const uuidGenerator = () => new Promise(function(resolveUuid, rejectUuid) {
 module.exports = {
   extractGithubOauthParameters,
   uuidGenerator,
+  strPad,
 }
 
 },{}]},{},[1]);
