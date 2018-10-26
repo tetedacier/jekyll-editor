@@ -7,7 +7,22 @@ userRequest('user').then(
   result => {
     console.log(result)
     userRequest(`search/repositories?q=user:${result.content.login}%20${result.content.login}.github.io`).then(
-      repository => console.log(repository),
+      repository => {
+        if (repository.content.total_count === 1) {
+          userRequest(`repos/${result.content.login}/${result.content.login}.github.io/contents/_posts`).then(
+            postList => {
+              var posts = document.createElement('ul')
+              postList.content.forEach(post => {
+                let postLink = document.createElement('li')
+                postLink.appendChild(document.createTextNode(post.path))
+                posts.appendChild(postLink)
+              })
+              document.getElementsByTagName('body')[0].appendChild(posts)
+            },
+            postListRejection => console.error(postListRejection)
+          )
+        }
+      },
       searchRejection => console.error(searchRejection)
     )
   },
